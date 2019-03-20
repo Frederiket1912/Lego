@@ -24,10 +24,10 @@ public class CommandCheckSpecificOrder extends Command {
             Order order = lf.getOrder(orderId, email);
             request.setAttribute("order", order);
         } catch (OrderException ex) {
-            request.setAttribute("error", "order not found. Indtast venligt et id fra en af dine ordrer");
+            request.setAttribute("error", "Order not found. Please enter id from one of your orders");
             request.getRequestDispatcher("orders.jsp").forward(request, response);
         } catch (NumberFormatException ex) {
-            request.setAttribute("error", "indtast venligst kun tal i feltet");
+            request.setAttribute("error", "Please enter only numbers");
             request.getRequestDispatcher("orders.jsp").forward(request, response);
         }
         request.getRequestDispatcher("specificOrder.jsp").forward(request, response);
