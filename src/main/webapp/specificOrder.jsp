@@ -24,14 +24,12 @@
         <title>Specific Order Page</title>
     </head>
     <body> <%-- alle værdier skal gemmes i request i command siden --%>
-        <% User user = (User) session.getAttribute("user");
-            Order order = (Order) request.getAttribute("order");
-            LogicFacade lf = new LogicFacade();
-            int orderId = Integer.parseInt(request.getParameter("orderId"));
+        <% User user = (User) session.getAttribute("user");         
+            int orderId = (Integer) request.getAttribute("orderId");
             String email = user.getEmail();
-            int height = order.getHeight();
-            int length = order.getLength();
-            int width = order.getWidth();
+            int height = (Integer) request.getAttribute("height");
+            int length = (Integer) request.getAttribute("length");
+            int width = (Integer) request.getAttribute("width");
         %>
         <h2>Hello <% out.print(email);%> this is info about order with id: <%out.print(orderId);%></h2>
         <br><br>
@@ -40,9 +38,8 @@
         <table>
             <thead><tr><th>Block Type</th><th>Wall 1</th><th>Wall 2</th><th>Wall 3</th><th>Wall 4</th><th>ialt</th></tr></thead> <tbody>
                         <%
-                            WallBuilder wb = new WallBuilder();
-                            Wall wall1 = wb.buildWall(height, length);
-                            Wall wall2 = wb.buildWall(height, width - 4);
+                            Wall wall1 = (Wall) request.getAttribute("wall1");
+                            Wall wall2 = (Wall) request.getAttribute("wall2");
                         %>
                 <tr>
                     <td>2x4</td> <td><%= wall1.getAmountOf2x4()%></td><td><%= wall2.getAmountOf2x4()%></td><td><%= wall1.getAmountOf2x4()%></td><td><%= wall2.getAmountOf2x4()%></td><td><%= wall1.getAmountOf2x4() * 2 + wall2.getAmountOf2x4() * 2%></td>

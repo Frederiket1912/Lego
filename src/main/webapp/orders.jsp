@@ -24,9 +24,7 @@
         <h1>Hello Order Page!</h1>
         <table> <%-- orders skal gemmes i request på command siden --%>
             <thead><tr><th>Order Id</th><th>Shipped</th></tr></thead> <tbody>
-                        <% User user = (User) session.getAttribute("user");
-                            LogicFacade lf = new LogicFacade();
-                            List<Order> orders = (ArrayList<Order>) lf.getOrders(user.getEmail());
+                <% ArrayList<Order> orders = (ArrayList<Order>) request.getAttribute("orders");
                             for (Order order : orders) {
                         %>
                 <tr>
