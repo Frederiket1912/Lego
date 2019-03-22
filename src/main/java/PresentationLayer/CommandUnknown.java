@@ -13,7 +13,8 @@ public class CommandUnknown extends Command{
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, UserException, OrderException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        request.setAttribute("error", "unknown command");
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
     
 }
