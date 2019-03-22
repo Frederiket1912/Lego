@@ -23,7 +23,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Specific Order Page</title>
     </head>
-    <body> <%-- alle værdier skal gemmes i request i command siden --%>
+    <body>
         <% User user = (User) session.getAttribute("user");         
             int orderId = (Integer) request.getAttribute("orderId");
             String email = user.getEmail();
