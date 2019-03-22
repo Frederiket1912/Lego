@@ -3,7 +3,7 @@ package PresentationLayer;
 
 import DBAccess.User;
 import FunctionLayer.LogicFacade;
-import FunctionLayer.LoginSampleException;
+import FunctionLayer.UserException;
 import FunctionLayer.OrderException;
 import FunctionLayer.Wall;
 import FunctionLayer.WallBuilder;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 public class CommandBuy extends Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, LoginSampleException, OrderException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, UserException, OrderException {
         HttpSession session = request.getSession();
         LogicFacade lf = new LogicFacade();
         WallBuilder wb = new WallBuilder();

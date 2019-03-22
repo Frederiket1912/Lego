@@ -3,7 +3,7 @@ package PresentationLayer;
 import DBAccess.Order;
 import DBAccess.User;
 import FunctionLayer.LogicFacade;
-import FunctionLayer.LoginSampleException;
+import FunctionLayer.UserException;
 import FunctionLayer.OrderException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 public class CommandCheckOrders extends Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, LoginSampleException, OrderException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, UserException, OrderException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         LogicFacade lf = new LogicFacade();

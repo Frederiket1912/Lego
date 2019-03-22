@@ -1,18 +1,22 @@
 <%-- 
-    Document   : orders
-    Created on : Mar 20, 2019, 11:27:27 AM
+    Document   : allOrders
+    Created on : Mar 22, 2019, 10:11:19 AM
     Author     : frede
 --%>
 
-<%@page import="FunctionLayer.LogicFacade"%>
-<%@page import="java.util.List"%>
+<%@page import="DBAccess.User"%>
 <%@page import="DBAccess.Order"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="DBAccess.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <% if (null == session.getAttribute("user")) {
         request.getRequestDispatcher("index.jsp").forward(request, response);
+    }
+    User user = (User) session.getAttribute("user");
+    if (!user.getRole().equals("admin")){
+        session.invalidate();
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+        return;
     }
 %>
 <html>
@@ -21,8 +25,7 @@
         <title>Order Page</title>
     </head>
     <body>
-        <% User user = (User) session.getAttribute("user"); %>
-        <h1> <% out.print(user.getEmail());%>'s Order Page!</h1>
+        <h1>All Orders Admin Page</h1>
         <table> 
             <thead><tr><th>Order Id</th><th>Shipped</th></tr></thead> <tbody>
                 <% ArrayList<Order> orders = (ArrayList<Order>) request.getAttribute("orders");
@@ -37,10 +40,10 @@
             </tbody>
         </table> <br><br>
         <form action="FrontController" method="post">
-            <h3>Select id of order to look at </h3>
+            <h3>Select id of order to ship </h3>
             <input type="text" name="orderId"/>
-            <input type="hidden" name="command" value="checkSpecificOrder"/>
-            <input type="submit" value="Check Order Details"/>
+            <input type="hidden" name="command" value="shipOrder"/>
+            <input type="submit" value="Ship Order"/>
         </form> <br>
         <form action="FrontController" method="post">
             <h3>Back to main page </h3>

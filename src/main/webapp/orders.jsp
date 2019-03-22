@@ -21,8 +21,9 @@
         <title>Order Page</title>
     </head>
     <body>
-        <h1>Hello Order Page!</h1>
-        <table> <%-- orders skal gemmes i request på command siden --%>
+        <% User user = (User) session.getAttribute("user"); %>
+        <h1> <% out.print(user.getEmail());%>'s Order Page!</h1>
+        <table> 
             <thead><tr><th>Order Id</th><th>Shipped</th></tr></thead> <tbody>
                 <% ArrayList<Order> orders = (ArrayList<Order>) request.getAttribute("orders");
                             for (Order order : orders) {

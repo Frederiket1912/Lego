@@ -1,7 +1,7 @@
 
 package DBAccess;
 
-import FunctionLayer.LoginSampleException;
+import FunctionLayer.UserException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +11,7 @@ import java.sql.Statement;
 
 public class UserMapper {
     
-    public void createUser( User user ) throws LoginSampleException {
+    public void createUser( User user ) throws UserException {
         try {
             Connection con = DBConnector.connection();
             String SQL = "INSERT INTO Users (email, password, role) VALUES (?, ?, ?)";
@@ -21,11 +21,11 @@ public class UserMapper {
             ps.setString( 3, user.getRole() );
             ps.executeUpdate();
         } catch ( SQLException | ClassNotFoundException ex ) {
-            throw new LoginSampleException( ex.getMessage() );
+            throw new UserException( ex.getMessage() );
         }
     }
     
-    public User login( String email, String password ) throws LoginSampleException {
+    public User login( String email, String password ) throws UserException {
         try {
             Connection con = DBConnector.connection();
             String SQL = "SELECT role FROM Users "
@@ -39,14 +39,14 @@ public class UserMapper {
                 User user = new User( email, password, role );
                 return user;
             } else {
-                throw new LoginSampleException( "Could not validate user" );
+                throw new UserException( "Could not validate user" );
             }
         } catch ( ClassNotFoundException | SQLException ex ) {
-            throw new LoginSampleException(ex.getMessage());
+            throw new UserException(ex.getMessage());
         }
     }
     
-    public static void main(String[] args) throws LoginSampleException {
+    public static void main(String[] args) throws UserException {
         UserMapper um = new UserMapper();
          User u = um.login("admin@admin.dk", "1234");
          //System.out.println(u.getRole());

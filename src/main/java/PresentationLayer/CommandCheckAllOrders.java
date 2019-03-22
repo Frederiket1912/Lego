@@ -1,28 +1,36 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package PresentationLayer;
 
+import DBAccess.Order;
 import DBAccess.User;
 import FunctionLayer.LogicFacade;
 import FunctionLayer.UserException;
 import FunctionLayer.OrderException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class CommandLogin extends Command {
+/**
+ *
+ * @author frede
+ */
+public class CommandCheckAllOrders extends Command{
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, UserException, OrderException {
-        String email = request.getParameter( "email" );
-        String password = request.getParameter( "password" );
-        LogicFacade lf = new LogicFacade();
-        User user = lf.login( email, password );
         HttpSession session = request.getSession();
-        session.setAttribute( "user", user );
-        session.setAttribute( "role", user.getRole() );
-        request.getRequestDispatcher("main.jsp").forward(request, response);
+        LogicFacade lf = new LogicFacade();
+        List<Order> orders = (ArrayList<Order>) lf.getAllOrders();
+        request.setAttribute("orders", orders);
+        request.getRequestDispatcher("allOrders.jsp").forward(request, response);
     }
     
-
 }

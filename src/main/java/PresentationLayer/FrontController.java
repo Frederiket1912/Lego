@@ -5,7 +5,7 @@
  */
 package PresentationLayer;
 
-import FunctionLayer.LoginSampleException;
+import FunctionLayer.UserException;
 import FunctionLayer.OrderException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,7 +40,7 @@ public class FrontController extends HttpServlet {
             Command c = Command.from(request);
             c.execute(request, response);
         }
-        catch ( LoginSampleException ex ) {
+        catch ( UserException ex ) {
             request.setAttribute( "error", ex.getMessage() );
             request.getRequestDispatcher( "index.jsp" ).forward( request, response );
         } catch (OrderException ex){

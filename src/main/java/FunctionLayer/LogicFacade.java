@@ -10,14 +10,20 @@ import java.util.ArrayList;
 
 public class LogicFacade {
 
-    public User createUser( String email, String password ) throws LoginSampleException {
+    public User createUser( String email, String password ) throws UserException {
         User user = new User(email, password, "customer");
         UserMapper um = new UserMapper();
         um.createUser( user );
         return user;
     }
+    public User createAdminUser( String email, String password ) throws UserException {
+        User user = new User(email, password, "admin");
+        UserMapper um = new UserMapper();
+        um.createUser( user );
+        return user;
+    }
     
-    public  User login( String email, String password ) throws LoginSampleException {
+    public  User login( String email, String password ) throws UserException {
         UserMapper um = new UserMapper();
         return um.login( email, password );
     }
@@ -39,12 +45,22 @@ public class LogicFacade {
         return om.getOrders(email);
     }
     
-    public Order getOrder(int orderId, String email) throws OrderException{
+    public Order getOrder(int orderId) throws OrderException{
         OrderMapper om = new OrderMapper();
-        return om.getOrder(orderId, email);
+        return om.getOrder(orderId);
     }
     
-    public static void main(String[] args) throws LoginSampleException {
+    public ArrayList<Order> getAllOrders() throws OrderException{
+        OrderMapper om = new OrderMapper();
+        return om.getAllOrders();
+    }
+    
+    public Order shipOrder(int orderId) throws OrderException{
+        OrderMapper om = new OrderMapper();
+        return om.shipOrder(orderId);
+    }
+    
+    public static void main(String[] args) throws UserException {
         LogicFacade lf = new LogicFacade();
         User user = lf.login("admin@admin.dk", "1234");
         //System.out.println("LogigFacade " +user.getRole());

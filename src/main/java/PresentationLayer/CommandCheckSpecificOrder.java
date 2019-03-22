@@ -3,7 +3,7 @@ package PresentationLayer;
 import DBAccess.Order;
 import DBAccess.User;
 import FunctionLayer.LogicFacade;
-import FunctionLayer.LoginSampleException;
+import FunctionLayer.UserException;
 import FunctionLayer.OrderException;
 import FunctionLayer.Wall;
 import FunctionLayer.WallBuilder;
@@ -17,15 +17,13 @@ import javax.servlet.http.HttpSession;
 public class CommandCheckSpecificOrder extends Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, LoginSampleException, OrderException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, UserException, OrderException {
         HttpSession session = request.getSession();
         LogicFacade lf = new LogicFacade();
         try {
-            User user = (User) session.getAttribute("user");
             int orderId = Integer.parseInt(request.getParameter("orderId"));
             request.setAttribute("orderId", orderId);
-            String email = user.getEmail();
-            Order order = lf.getOrder(orderId, email);
+            Order order = lf.getOrder(orderId);
             int height = order.getHeight();
             int length = order.getLength();
             int width = order.getWidth();

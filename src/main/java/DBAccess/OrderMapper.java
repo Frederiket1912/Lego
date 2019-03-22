@@ -46,18 +46,44 @@ public class OrderMapper {
         }
     }
     
-    public Order getOrder(int orderId, String email) throws OrderException{
-        for (Order o : getOrders(email)) {
+    public Order getOrder(int orderId) throws OrderException{
+        for (Order o : getAllOrders()) {
             if (o.getOrderId() == orderId){
                 return o;
             }
         }
             throw new OrderException("Order not found");
     }
+    
+    public ArrayList<Order> getAllOrders() throws OrderException{
+        try {
+            Connection con = DBConnector.connection();
+            String SQL = "select * from `Orders`;";
+            ArrayList<Order> orders = new ArrayList<>();
+            ResultSet rs = con.createStatement().executeQuery(SQL);
+            while (rs.next()){
+                orders.add(new Order(rs.getString("email"), rs.getInt("width"), rs.getInt("length"), rs.getInt("height"), rs.getInt("2x4Bricks"), rs.getInt("2x2Bricks"), rs.getInt("2x1Bricks"), rs.getBoolean("hasBeenShipped"), rs.getInt("orderId")));
+            }
+            return orders;
+        } catch ( SQLException | ClassNotFoundException ex ) {
+            throw new OrderException( ex.getMessage() );
+        }
+    }
+    
+    public Order shipOrder(int orderId) throws OrderException{
+            try {
+            String SQL = "update `Orders` set `hasBeenShipped` = 1 where orderId = " + orderId + ";";
+            Connection connection = DBConnector.connection();
+            connection.createStatement().executeUpdate(SQL);
+            return getOrder(orderId);
+            } catch ( SQLException | ClassNotFoundException ex ) {
+            throw new OrderException( ex.getMessage() );
+        }
+    }
+    
     public static void main(String[] args) throws OrderException {
         OrderMapper om = new OrderMapper();
-        ArrayList<Order> orders = om.getOrders("admin@admin.dk");
-        System.out.println("number of orders: " + orders.size());
-        System.out.println("id of first order: " + orders.get(0).getOrderId());
+        ArrayList<Order> orders = om.getAllOrders();
+        System.out.println(orders.get(3).isHasBeenShipped());
     }
 }
